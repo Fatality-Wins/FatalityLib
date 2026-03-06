@@ -1,15 +1,3 @@
---[[
-    ███████╗ █████╗ ████████╗ █████╗ ██╗     ██╗████████╗██╗   ██╗    ██╗    ██╗
-    ██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██║     ██║╚══██╔══╝╚██╗ ██╔╝    ██║    ██║
-    █████╗  ███████║   ██║   ███████║██║     ██║   ██║    ╚████╔╝     ██║ █╗ ██║
-    ██╔══╝  ██╔══██║   ██║   ██╔══██║██║     ██║   ██║     ╚██╔╝      ██║███╗██║
-    ██║     ██║  ██║   ██║   ██║  ██║███████╗██║   ██║      ██║       ╚███╔███╔╝
-    ╚═╝     ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝   ╚═╝      ╚═╝        ╚══╝╚══╝ 
-    
-    Fatality W - Custom Topbar UI
-    Features: Right-Click to open, Left-Click to toggle, Group Dragging Mode.
-]]
-
 local Down = false 
 local KickMessage = "Fatality W is currently down for maintenance."
 
@@ -80,6 +68,10 @@ function FatalityLib:Init(options)
     options = options or {}
     self.ToggleKey = options.ToggleKey or Enum.KeyCode.RightShift
     self.GroupMode = options.GroupMode or false
+
+    if self.ScreenGui then
+        self.ScreenGui:Destroy()
+    end
 
     local ScreenGui = Create("ScreenGui", {
         Name = "FatalityUI",
@@ -251,6 +243,22 @@ function FatalityLib:AddCategory(name)
     end)
 
     --// Elements
+
+    -- LABEL (FIXED: Added this function)
+    function Category:AddLabel(text)
+        local Label = Create("TextLabel", {
+            Name = "Label",
+            Parent = Dropdown,
+            BackgroundTransparency = 1,
+            Size = UDim2.new(1, 0, 0, 20),
+            Font = FatalityLib.Theme.Font,
+            Text = text,
+            TextColor3 = FatalityLib.Theme.Text,
+            TextSize = 12,
+            ZIndex = 6,
+        })
+        return Label
+    end
 
     -- BUTTON
     function Category:AddButton(options)
